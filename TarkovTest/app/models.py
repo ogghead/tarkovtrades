@@ -1,8 +1,9 @@
 import datetime
+import math
 
 from django.db import models
 from django.utils import timezone
-import math
+
 
 # Create your models here.
 class Item(models.Model):
@@ -56,18 +57,18 @@ class Trade(models.Model):
     input_items = models.ManyToManyField(Item, through='InputCount', related_name='inputs')
     output_items = models.ManyToManyField(Item, through='OutputCount', related_name='outputs')
 
-
-# class Count(models.Model):
-#     item = models.ForeignKey(Item, on_delete=models.PROTECT)
-#     trade = models.ForeignKey(Trade, on_delete=models.PROTECT)
-#     amount = models.IntegerField()
-
 class InputCount(models.Model):
     item = models.ForeignKey(Item, on_delete=models.PROTECT)
     trade = models.ForeignKey(Trade, on_delete=models.PROTECT)
     amount = models.IntegerField()
 
+    def __str__(self):
+        return f"{self.item.name} {self.amount}"
+
 class OutputCount(models.Model):
     item = models.ForeignKey(Item, on_delete=models.PROTECT)
     trade = models.ForeignKey(Trade, on_delete=models.PROTECT)
     amount = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.item.name} {self.amount}"
