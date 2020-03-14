@@ -29,8 +29,12 @@ class Item(models.Model):
         return fee
 
     @property
-    def market_sell_price(self):
+    def market_sell_price_no_intel(self):
         return int(self.market_buy_price - self.calculate_fee(self.market_buy_price, intel_center=False))
+
+    @property
+    def market_sell_price_intel(self):
+        return int(self.market_buy_price - self.calculate_fee(self.market_buy_price, intel_center=True))
 
     @property
     def min_buy_price(self):
@@ -38,8 +42,13 @@ class Item(models.Model):
         return min(ls)
 
     @property
-    def max_sell_price(self):
-        ls = [i for i in [self.market_sell_price, self.highest_sell_price_to_trader]]
+    def max_sell_price_no_intel(self):
+        ls = [i for i in [self.market_sell_price_no_intel, self.highest_sell_price_to_trader]]
+        return max(ls)
+
+    @property
+    def max_sell_price_intel(self):
+        ls = [i for i in [self.market_sell_price_intel, self.highest_sell_price_to_trader]]
         return max(ls)
 
     def __unicode__(self):
@@ -53,22 +62,25 @@ class Item(models.Model):
 class Trade(models.Model):
     traders = ['Prapor', 'Therapist', 'Fence', 'Skier',
                'Peacekeeper', 'Mechanic', 'Ragman', 'Jaeger']
-    trader = models.CharField(choices=[(i, i) for i in traders], max_length=200)
+    traders = [(i, i) for i in traders]
+    levels = [('I', 1), ('II', 2), ('III', 3), ('Max', 4)]
+    trader = models.CharField(choices=traders, max_length=200)
+    trader_level = models.CharField(choices=levels, max_length=200)
     input_items = models.ManyToManyField(Item, through='InputCount', related_name='inputs')
     output_items = models.ManyToManyField(Item, through='OutputCount', related_name='outputs')
 
 class InputCount(models.Model):
-    item = models.ForeignKey(Item, on_delete=models.PROTECT)
-    trade = models.ForeignKey(Trade, on_delete=models.PROTECT)
-    amount = models.IntegerField()
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    trade = models.ForeignKey(Trade, on_delete=models.CASCADE)
+    amount = models.IntegerField(default=1)
 
     def __str__(self):
         return f"{self.item.name} {self.amount}"
 
 class OutputCount(models.Model):
-    item = models.ForeignKey(Item, on_delete=models.PROTECT)
-    trade = models.ForeignKey(Trade, on_delete=models.PROTECT)
-    amount = models.IntegerField()
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    trade = models.ForeignKey(Trade, on_delete=models.CASCADE)
+    amount = models.IntegerField(default=1)
 
     def __str__(self):
         return f"{self.item.name} {self.amount}"
