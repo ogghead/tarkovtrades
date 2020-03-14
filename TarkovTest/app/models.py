@@ -17,26 +17,32 @@ class Item(models.Model):
     lowest_buy_price_trader = models.CharField(choices=traders, max_length=200, default=traders[0], blank=True) # Trader for lowest buy price, may be blank if not available from traders
     market_buy_price = models.IntegerField() # The seen price on the market
 
-    def calculate_fee(self, post_price, intel_center):
+    def fee(self, intel_center):
         v0 = self.true_value
-        vr = post_price
+        vr = self.market_buy_price
         ti = tr = 0.025
         p0 = math.log10(v0/vr)
-        #if v0 < vr: p0=math.pow(math.log10(v0/vr), 1.08)
         pr = math.log10(vr/v0)
-        #math.pow(math.log10(vr/v0), 1.08) if v0 >= vr else 
         fee = v0 * ti * math.pow(4, p0) + vr * tr * math.pow(4, pr)
         if intel_center:
             fee = .7*fee
         return fee
 
     @property
+    def fee_to_post_at_buy_price_no_intel(self):
+        return int(self.fee(False))
+
+    @property
+    def fee_to_post_at_buy_price_intel(self):
+        return int(self.fee(True))
+
+    @property
     def market_sell_price_no_intel(self):
-        return int(self.market_buy_price - self.calculate_fee(self.market_buy_price, intel_center=False))
+        return int(self.market_buy_price - self.fee_to_post_at_buy_price_no_intel)
 
     @property
     def market_sell_price_intel(self):
-        return int(self.market_buy_price - self.calculate_fee(self.market_buy_price, intel_center=True))
+        return int(self.market_buy_price - self.fee_to_post_at_buy_price_intel)
 
     @property
     def min_buy_price(self):
@@ -60,6 +66,22 @@ class Item(models.Model):
     def __str__(self):
         return self.name
 
+    #fee_to_post_at_buy_price_no_intel = models.IntegerField(blank=True)
+    #fee_to_post_at_buy_price_intel = models.IntegerField(blank=True)
+
+    #def clean(self):
+    #    if not self.fee_to_post_at_buy_price_no_intel and not self.fee_to_post_at_buy_price_intel:  # This will check for None or Empty
+    #        raise ValidationError({'fee_to_post_at_buy_price_no_intel': _('One of fee_to_post_at_buy_price_no_intel or fee_to_post_at_buy_price_intel should have a value.')})
+    #    if not self.fee_to_post_at_buy_price_no_intel:
+    #        self.fee_to_post_at_buy_price_no_intel = int(self.fee_to_post_at_buy_price_intel / 0.7)
+    #    else:
+    #        self.fee_to_post_at_buy_price_intel = int(self.fee_to_post_at_buy_price_no_intel * 0.7)
+
+    #@property
+    #def true_value(self):
+    #    fee = self.fee_to_post_at_buy_price_no_intel
+    #    vr = self.market_buy_price
+    #    return (-40 - vr + 40*fee)
 
 class Trade(models.Model):
     traders = ['Prapor', 'Therapist', 'Fence', 'Skier',
@@ -103,3 +125,12 @@ class OutputCount(models.Model):
 
     def __str__(self):
         return f"{self.item.name} {self.amount}"
+
+#class TrueValueCalc(models.Model):
+#    previous_stash = models.IntegerField()
+#    cashback = models.IntegerField()
+#    new_stash = models.IntegerField()
+
+#    @property
+#    def true_value(self):
+#        return self.previous_stash + self.cashback - self.new_stash
