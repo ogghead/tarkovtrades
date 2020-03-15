@@ -17,7 +17,6 @@ class ItemAdmin(admin.ModelAdmin):
                         ('highest_sell_price_to_trader', 'highest_sell_price_trader'), 
                         ('lowest_buy_price_from_trader', 'lowest_buy_price_trader'), 
                         'market_buy_price',)
-                        #('fee_to_post_at_buy_price_no_intel', 'fee_to_post_at_buy_price_intel'),)
          return super(ItemAdmin,self).add_view(request)
 
     def change_view(self, request, object_id, extra_content=None):
@@ -26,11 +25,11 @@ class ItemAdmin(admin.ModelAdmin):
                         ('lowest_buy_price_from_trader', 'lowest_buy_price_trader'),
                         'market_buy_price', 
                         ('fee_to_post_at_buy_price_no_intel', 'fee_to_post_at_buy_price_intel'), 
-                        'market_sell_price_no_intel', 'market_sell_price_intel', 'min_buy_price',
-                        'max_sell_price_no_intel', 'max_sell_price_intel')
+                        'market_sell_price_no_intel', 'market_sell_price_intel', ('min_buy_price', 'min_buy_price_source'),
+                        ('max_sell_price_no_intel', 'max_sell_price_no_intel_source'), ('max_sell_price_intel', 'max_sell_price_intel_source'))
          self.readonly_fields = ('fee_to_post_at_buy_price_no_intel', 'fee_to_post_at_buy_price_intel',
-                                 'market_sell_price_no_intel', 'market_sell_price_intel', 'min_buy_price',
-                                 'max_sell_price_no_intel', 'max_sell_price_intel')
+                                 'market_sell_price_no_intel', 'market_sell_price_intel', 'min_buy_price', 'min_buy_price_source',
+                                 'max_sell_price_no_intel', 'max_sell_price_no_intel_source', 'max_sell_price_intel', 'max_sell_price_intel_source')
          return super(ItemAdmin,self).change_view(request, object_id)
 
 
@@ -50,15 +49,4 @@ class TradeAdmin(admin.ModelAdmin):
                                  'net_value_no_intel', 'net_value_intel')
          return super(TradeAdmin,self).change_view(request, object_id)
     inlines = (InputInlineAdmin, OutputInlineAdmin,)
-
-#@admin.register(TrueValueCalc)
-#class TrueValueCalcAdmin(admin.ModelAdmin):
-#    def add_view(self, request, extra_content=None):
-#         self.fields = ('previous_stash', 'cashback', 'new_stash')
-#         return super(TrueValueCalcAdmin,self).add_view(request)
-
-#    def change_view(self, request, object_id, extra_content=None):
-#         self.fields = ('previous_stash', 'cashback', 'new_stash', 'true_value')  
-#         self.readonly_fields = ('true_value')
-#         return super(TrueValueCalcAdmin,self).change_view(request, object_id)
 

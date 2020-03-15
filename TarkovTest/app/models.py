@@ -50,14 +50,35 @@ class Item(models.Model):
         return min(ls)
 
     @property
+    def min_buy_price_source(self):
+        if self.min_buy_price == self.market_buy_price: # Market buy price can't be None:
+            return "Market"
+        else:
+            return self.lowest_buy_price_trader
+
+    @property
     def max_sell_price_no_intel(self):
         ls = [i for i in [self.market_sell_price_no_intel, self.highest_sell_price_to_trader]]
         return max(ls)
 
     @property
+    def max_sell_price_no_intel_source(self):
+        if self.max_sell_price_no_intel == self.market_sell_price_no_intel: # Market sell price can't be None:
+            return "Market"
+        else:
+            return self.highest_sell_price_trader
+
+    @property
     def max_sell_price_intel(self):
         ls = [i for i in [self.market_sell_price_intel, self.highest_sell_price_to_trader]]
         return max(ls)
+
+    @property
+    def max_sell_price_intel_source(self):
+        if self.max_sell_price_intel == self.market_sell_price_intel: # Market sell price can't be None:
+            return "Market"
+        else:
+            return self.highest_sell_price_trader
 
     def __unicode__(self):
         """Returns a string representation of an item."""
