@@ -5,6 +5,7 @@ Definition of views.
 from datetime import datetime
 from django.shortcuts import render
 from django.http import HttpRequest
+from app.models import Item, Trade
 
 def home(request):
     """Renders the home page."""
@@ -13,7 +14,20 @@ def home(request):
         request,
         'app/index.html',
         {
-            'title':'Home Page',
+            'title':'Tarkov Trader',
+            'year':datetime.now().year,
+        }
+    )
+
+def items(request):
+    """Renders the home page."""
+    assert isinstance(request, HttpRequest)
+    return render(
+        request,
+        'app/items.html',
+        {
+            'title':'Tarkov Trader',
+            'itemlist': Item.objects.order_by('name'),
             'year':datetime.now().year,
         }
     )

@@ -1,0 +1,16 @@
+﻿{% extends "app/layout.html" %}
+
+{% block content %}
+
+<h2>{{ title }}</h2>
+
+{% if itemlist %}
+    <ul>
+    {% for item in itemlist %}
+    <li>{{ item.name }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No items registered yet.</p>
+{% endif %}
+{% endblock %}

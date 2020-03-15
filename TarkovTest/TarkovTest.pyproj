@@ -60,6 +60,7 @@
     <Folder Include="TarkovTest\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\templates\app\items.html" />
     <Content Include="requirements.txt" />
     <Content Include="app\static\app\content\bootstrap.css" />
     <Content Include="app\static\app\content\bootstrap.min.css" />
