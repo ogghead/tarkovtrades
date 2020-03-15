@@ -3,7 +3,7 @@ Definition of views.
 """
 
 from datetime import datetime
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpRequest
 from app.models import Item, Trade
 
@@ -16,6 +16,7 @@ def home(request):
         {
             'title':'Tarkov Trader',
             'year':datetime.now().year,
+            'has_intel': False,
         }
     )
 
@@ -27,8 +28,23 @@ def items(request):
         'app/items.html',
         {
             'title':'Tarkov Trader',
-            'itemlist': Item.objects.order_by('name'),
             'year':datetime.now().year,
+            'has_intel': False,
+            'itemlist': Item.objects.order_by('name'),
+        }
+    )
+
+def item(request, name):
+    assert isinstance(request, HttpRequest)
+    item = get_object_or_404(Item, name=name)
+    return render(
+        request,
+        'app/item.html',
+        {
+            'title':'Tarkov Trader',
+            'year':datetime.now().year,
+            'has_intel': False,
+            'item': item,
         }
     )
 
@@ -40,8 +56,9 @@ def contact(request):
         'app/contact.html',
         {
             'title':'Contact',
-            'message':'Your contact page.',
             'year':datetime.now().year,
+            'has_intel': False,
+            'message':'Your contact page.',
         }
     )
 

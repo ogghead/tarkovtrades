@@ -12,6 +12,7 @@ from app import forms, views
 urlpatterns = [
     path('', views.home, name='home'),
     path('items/', views.items, name='items'),
+    path('items/<str:name>/', views.item, name='item'), #Send a variable called name to views.item
     path('contact/', views.contact, name='contact'),
     path('about/', views.about, name='about'),
     path('login/',

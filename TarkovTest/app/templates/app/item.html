@@ -1,0 +1,15 @@
+﻿{% extends "app/layout.html" %}
+
+{% block content %}
+
+<h2>{{ title }}</h2>
+
+<h3> {{ item.name }}</h3>
+<p> Minimum Buy Price: {{ item.min_buy_price }} from {{ item.min_buy_price_source }}</p>
+{% if has_intel %}
+    <p> Maximum Sell Price: {{ item.max_sell_price_intel }} to {{ item.max_sell_price_intel_source }}</p>
+{% else %}
+    <p> Maximum Sell Price: {{ item.max_sell_price_no_intel }} to {{ item.max_sell_price_no_intel_source }}</p>
+{% endif %}
+
+{% endblock %}
