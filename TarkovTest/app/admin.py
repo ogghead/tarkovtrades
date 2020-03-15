@@ -2,24 +2,13 @@ from django.contrib import admin
 from django.forms import ModelForm
 # Register your models here.
 
-from app.models import Item, Trade, InputCount, OutputCount#, TrueValueCalc
+from app.models import Item, Trade, InputCount, OutputCount
 
 class InputInlineAdmin(admin.TabularInline):
     model = Trade.input_items.through
 
 class OutputInlineAdmin(admin.TabularInline):
     model = Trade.output_items.through
-
-#@admin.register(TrueValueCalc)
-#class TrueValueCalcAdmin(admin.ModelAdmin):
-#    def add_view(self, request, extra_content=None):
-#         self.fields = ('previous_stash', 'cashback', 'new_stash')
-#         return super(TrueValueCalcAdmin,self).add_view(request)
-
-#    def change_view(self, request, object_id, extra_content=None):
-#         self.fields = ('previous_stash', 'cashback', 'new_stash', 'true_value')  
-#         self.readonly_fields = ('true_value')
-#         return super(TrueValueCalcAdmin,self).change_view(request, object_id)
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
@@ -52,9 +41,24 @@ class TradeAdmin(admin.ModelAdmin):
          return super(TradeAdmin,self).add_view(request)
 
     def change_view(self, request, object_id, extra_content=None):
-         self.fields =  ('trader', 'trader_level', 'inputs_sell_price_no_intel', 'inputs_sell_price_intel',
-                         'outputs_sell_price_no_intel', 'outputs_sell_price_intel')
+         self.fields =  ('trader', 'trader_level', 
+                         'inputs_sell_price_no_intel', 'inputs_sell_price_intel',
+                         'outputs_sell_price_no_intel', 'outputs_sell_price_intel',
+                         'net_value_no_intel', 'net_value_intel')
          self.readonly_fields = ('inputs_sell_price_no_intel', 'inputs_sell_price_intel',
-                                 'outputs_sell_price_no_intel', 'outputs_sell_price_intel')
+                                 'outputs_sell_price_no_intel', 'outputs_sell_price_intel',
+                                 'net_value_no_intel', 'net_value_intel')
          return super(TradeAdmin,self).change_view(request, object_id)
     inlines = (InputInlineAdmin, OutputInlineAdmin,)
+
+#@admin.register(TrueValueCalc)
+#class TrueValueCalcAdmin(admin.ModelAdmin):
+#    def add_view(self, request, extra_content=None):
+#         self.fields = ('previous_stash', 'cashback', 'new_stash')
+#         return super(TrueValueCalcAdmin,self).add_view(request)
+
+#    def change_view(self, request, object_id, extra_content=None):
+#         self.fields = ('previous_stash', 'cashback', 'new_stash', 'true_value')  
+#         self.readonly_fields = ('true_value')
+#         return super(TrueValueCalcAdmin,self).change_view(request, object_id)
+

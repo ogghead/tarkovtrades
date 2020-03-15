@@ -95,19 +95,27 @@ class Trade(models.Model):
 
     @property
     def inputs_sell_price_no_intel(self):
-        return sum([i.amount * i.item.max_sell_price_no_intel for i in self.input_items.all()])
+        return sum([i.amount * i.item.max_sell_price_no_intel for i in self.inputcount_set.all()])
 
     @property
     def inputs_sell_price_intel(self):
-        return sum([i.amount * i.item.max_sell_price_intel for i in self.input_items.all()])
+        return sum([i.amount * i.item.max_sell_price_intel for i in self.inputcount_set.all()])
 
     @property
     def outputs_sell_price_no_intel(self):
-        return sum([i.amount * i.item.max_sell_price_no_intel for i in self.output_items.all()])
+        return sum([i.amount * i.item.max_sell_price_no_intel for i in self.outputcount_set.all()])
 
     @property
     def outputs_sell_price_intel(self):
-        return sum([i.amount * i.item.max_sell_price_intel for i in self.output_items.all()])
+        return sum([i.amount * i.item.max_sell_price_intel for i in self.outputcount_set.all()])
+
+    @property
+    def net_value_no_intel(self):
+        return self.outputs_sell_price_no_intel - self.inputs_sell_price_no_intel
+
+    @property
+    def net_value_intel(self):
+        return self.outputs_sell_price_intel - self.inputs_sell_price_intel
 
 
 class InputCount(models.Model):
