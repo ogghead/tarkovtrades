@@ -4,15 +4,15 @@
 
 <h2>{{ title }}</h2>
 
-{% if itemlist %}
+{% if tradelist %}
     <ul class="list-group">
-    {% for item in itemlist %}
+    {% for trade in tradelist %}
     <li class="list-group-item">
-        <a href={% url 'item' item.name %}>{{ item.name }}</a>
+        <a href={% url 'trade' trade.id %}>{{ trade.id }}</a>
     </li>
     {% endfor %}
     </ul>
 {% else %}
-    <p>No items registered yet.</p>
+    <p>No trades registered yet.</p>
 {% endif %}
 {% endblock %}

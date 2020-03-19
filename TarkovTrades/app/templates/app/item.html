@@ -5,11 +5,27 @@
 <h2>{{ title }}</h2>
 
 <h3> {{ item.name }}</h3>
-<p> Minimum Buy Price: {{ item.min_buy_price }} from {{ item.min_buy_price_source }}</p>
+
 {% if has_intel %}
+    {% if item.min_buy_price_intel_source_is_trade %}
+        <p> Minimum Buy Price: {{ item.min_buy_price_intel }} from <a href={% url 'trade' item.min_buy_price_intel_source.id %}>trade</a></p>
+    {% else %}
+        <p> Minimum Buy Price: {{ item.min_buy_price_intel }} from {{ item.min_buy_price_intel_source }}</p>
+    {% endif %}
     <p> Maximum Sell Price: {{ item.max_sell_price_intel }} to {{ item.max_sell_price_intel_source }}</p>
 {% else %}
-    <p> Maximum Sell Price: {{ item.max_sell_price_no_intel }} to {{ item.max_sell_price_no_intel_source }}</p>
+    {% if item.min_buy_price_no_intel_source_is_trade %}
+        <p> Minimum Buy Price: {{ item.min_buy_price_no_intel }} from <a href={% url 'trade' item.min_buy_price_no_intel_source.id %}>trade</a></p>
+    {% else %}
+        <p> Minimum Buy Price: {{ item.min_buy_price_no_intel }} from {{ item.min_buy_price_no_intel_source }}</p>
+    {% endif %}
+    {% if item.max_sell_price_no_intel_source_is_trade is True %}
+        <p> Maximum Sell Price: {{ item.max_sell_price_no_intel }} from <a href={% url 'trade' item.max_sell_price_no_intel_source.id %}>trade</a></p>
+    {% else %}
+        <p> Maximum Sell Price: {{ item.max_sell_price_no_intel }} to {{ item.max_sell_price_no_intel_source }}</p>
+    {% endif %}
+
+    
 {% endif %}
 
 {% endblock %}

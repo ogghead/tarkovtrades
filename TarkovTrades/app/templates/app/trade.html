@@ -1,0 +1,29 @@
+﻿{% extends "app/layout.html" %}
+
+{% block content %}
+
+<h2>{{ title }}</h2>
+<h3> Trader: {{ trade.trader }}</h3>
+<h3> Level: {{ trade.trader_level }}</h3>
+<h3> Inputs </h3>
+{% for input in trade.inputcount_set.all %}
+<div>
+    <ul>
+        <li><a href="{% url 'item' input.item.name %}">{{ input.item.name }}</a> x {{ input.amount }}</li>
+    </ul>
+</div>
+{% endfor %}
+
+<h3> Outputs </h3>
+{% for output in trade.outputcount_set.all %}
+<div>
+    <ul>
+        <li><a href="{% url 'item' output.item.name %}">{{ output.item.name }}</a> x {{ output.amount }}</li>
+    </ul>
+</div>
+
+<div>
+The max profit of this trade is: {{ trade.profit_no_intel }}
+</div>
+{% endfor %}
+{% endblock %}
