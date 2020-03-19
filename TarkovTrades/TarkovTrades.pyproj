@@ -80,6 +80,9 @@
     <Folder Include="TarkovTrades\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\templates\app\trades.html" />
+    <Content Include="app\templates\app\trade.html" />
+    <Content Include="app\templates\app\itempicker.html" />
     <Content Include="app\templates\app\item.html" />
     <Content Include="app\templates\app\items.html" />
     <Content Include="requirements.txt" />
