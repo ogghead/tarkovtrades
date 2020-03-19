@@ -85,24 +85,10 @@ DATABASES = {
         'USER': 'ogghead@tarkovtradesdbserver',
         'PASSWORD': 'WeedNHash420&',
         'OPTIONS': {
-            'Database': 'TarkovTrades_db.dbo',
             'driver': 'ODBC Driver 17 for SQL Server',
 
         },
     },
-    #'default': {
-    #    'ENGINE': 'sql_server.pyodbc',
-    #    'NAME': 'Tarkov',
-    #    'HOST': 'OGGSTATION',
-    #    'PORT': '',
-    #    'USER': '',
-    #    'PASSWORD': '',
-    #    'OPTIONS': {
-    #        'driver': 'ODBC Driver 17 for SQL Server',
-
-    #    },
-    #},
-    
 }
 DATABASE_CONNECTION_POOLING = False
 
