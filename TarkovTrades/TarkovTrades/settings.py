@@ -23,14 +23,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'b729e6ef-7d3e-4678-9998-8ba4fb4c4ae1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['https://tarkovtrades.azurewebsites.net']
+ALLOWED_HOSTS = ['*']
 
 # Application references
 # https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-INSTALLED_APPS
 INSTALLED_APPS = [
-    'app',
+    
     # Add your apps here to enable them
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'app',
 ]
 
 # Middleware framework
@@ -78,16 +79,32 @@ WSGI_APPLICATION = 'TarkovTrades.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'sql_server.pyodbc',
-        'NAME': 'Tarkov',
-        'HOST': 'OGGSTATION',
+        'NAME': 'TarkovTrades_db',
+        'HOST': 'tarkovtradesdbserver.database.windows.net',
         'PORT': '',
-        'USER': '',
-        'PASSWORD': '',
+        'USER': 'ogghead@tarkovtradesdbserver',
+        'PASSWORD': 'WeedNHash420&',
         'OPTIONS': {
-            'driver': "SQL Server Native Client 11.0",
+            'Database': 'TarkovTrades_db.dbo',
+            'driver': 'ODBC Driver 17 for SQL Server',
+
         },
-    }
+    },
+    #'default': {
+    #    'ENGINE': 'sql_server.pyodbc',
+    #    'NAME': 'Tarkov',
+    #    'HOST': 'OGGSTATION',
+    #    'PORT': '',
+    #    'USER': '',
+    #    'PASSWORD': '',
+    #    'OPTIONS': {
+    #        'driver': 'ODBC Driver 17 for SQL Server',
+
+    #    },
+    #},
+    
 }
+DATABASE_CONNECTION_POOLING = False
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -109,7 +126,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Denver'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
