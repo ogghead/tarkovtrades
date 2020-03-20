@@ -10,7 +10,7 @@ from app import forms, views
 
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('/', views.home, name='home'),
     path('items/', views.items, name='items'),
     path('items/<str:name>/', views.item, name='item'),
     path('trades/', views.trades, name='trades'),
