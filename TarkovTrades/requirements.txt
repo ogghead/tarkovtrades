@@ -19,7 +19,6 @@ pylint==2.4.4
 pyodbc==4.0.30
 pyparsing==2.4.6
 pytest==5.4.1
-pywin32==227
 setuptools==46.0.0
 six==1.14.0
 sqlparse==0.3.1
