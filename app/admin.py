@@ -61,20 +61,24 @@ class ItemAdmin(admin.ModelAdmin):
 
 @admin.register(Trade)
 class TradeAdmin(admin.ModelAdmin):
-    list_display = ('trader', 'trader_level', 
+    list_display = ('trader', 'trader_level',
+                    'crafting_station', 'crafting_station_level',
                     'profit_no_intel', 'profit_intel', 
                     'is_useless_no_intel', 'is_useless_intel')
 
     inlines = (InputInlineAdmin, OutputInlineAdmin,)
     def add_view(self, request, extra_content=None):
         self.fieldsets = [
-            (None, {'fields': ['trader', 'trader_level']}),
+            (None, {'fields': [['trader', 'trader_level'],
+                               ['crafting_station', 'crafting_station_level']]
+                   }),
         ]
         return super(TradeAdmin,self).add_view(request)
 
     def change_view(self, request, object_id, extra_content=None):
         self.fieldsets = [
-            (None, {'fields': ['trader', 'trader_level']}),
+            (None, {'fields': [['trader', 'trader_level'],
+                               ['crafting_station', 'crafting_station_level']]}),
             ('Calculated Fields (Read Only)', {'fields': [['inputs_buy_price_no_intel', 'inputs_buy_price_intel'],
                                                           #['min_inputs_price_intel', 'max_inputs_price_intel'],
                                                           ['outputs_price_no_intel', 'outputs_price_intel'],
