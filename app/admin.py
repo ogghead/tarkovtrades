@@ -18,6 +18,7 @@ class ItemAdmin(admin.ModelAdmin):
                     'min_buy_price_intel', 'min_buy_price_intel_source',
                     'max_sell_price_no_intel', 'max_sell_price_no_intel_source',
                     'max_sell_price_intel', 'max_sell_price_intel_source')
+    
     def add_view(self, request, extra_content=None):
         self.fieldsets = [
             (None, {'fields': ['name']}),

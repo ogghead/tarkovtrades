@@ -12,18 +12,18 @@ from app.models import Item, Trade
 
 def home(request):
     """Renders the home page."""
-    ItemSet = formset_factory(ItemForm, extra=2) # Generate a formset for the item form
-    assert isinstance(request, HttpRequest)
-    if request.method == "POST":
-        formset = ItemSet(request.POST)
-        if formset.is_valid():
-            items = {}
-            for form in formset:
-                items[form.cleaned_data.get('item')] = {'amount': form.cleaned_data.get('item_amount')}
-            find_best_deals(items, False)
-            return HttpResponseRedirect('/redirected/')
+    # ItemSet = formset_factory(ItemForm, extra=2) # Generate a formset for the item form
+    # assert isinstance(request, HttpRequest)
+    # if request.method == "POST":
+    #     formset = ItemSet(request.POST)
+    #     if formset.is_valid():
+    #         items = {}
+    #         for form in formset:
+    #             items[form.cleaned_data.get('item')] = {'amount': form.cleaned_data.get('item_amount')}
+    #         find_best_deals(items, False)
+    #         return HttpResponseRedirect('/redirected/')
 
-    formset = ItemSet()
+    # formset = ItemSet()
     return render(
         request,
         'app/index.html',
@@ -31,7 +31,7 @@ def home(request):
             'title':'Tarkov Trader',
             'year':datetime.now().year,
             'has_intel': False,
-            'formset': formset,
+            # 'formset': formset,
         }
     )
 
