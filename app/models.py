@@ -10,7 +10,7 @@ from django.core.exceptions import ValidationError
 class Item(models.Model):
     name = models.CharField(max_length=200, unique=True) # Item names must be unique
     
-    sell_traders = ['Therapist', 'Skier', 'Mechanic']
+    sell_traders = ['Therapist', 'Skier', 'Mechanic', 'Prapor']
     sell_traders = [(i, i) for i in sell_traders]
     highest_sell_price_to_trader = models.IntegerField() # Highest sell price of this item to a trader
     highest_sell_price_trader = models.CharField(choices=sell_traders, max_length=200) # Trader for highest sell price
@@ -55,6 +55,8 @@ class Item(models.Model):
             return int(1.492668 * self.highest_sell_price_to_trader)
         elif self.highest_sell_price_trader == 'Mechanic':
             return int(1.755355 * self.highest_sell_price_to_trader)
+        elif self.highest_sell_price_trader == 'Prapor':
+            return int(1.818126 * self.highest_sell_price_to_trader)
 
     def fee(self):
         '''
