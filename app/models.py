@@ -7,18 +7,20 @@ from django.utils.functional import cached_property
 
 # Create your models here.
 class Item(models.Model):
-    traders = ['', 'Prapor', 'Therapist', 'Fence', 'Skier',
-               'Peacekeeper', 'Mechanic', 'Ragman', 'Jaeger']
-    traders = [(i, i) for i in traders]
+    
     name = models.CharField(max_length=200, unique=True) # Item names must be unique
-    true_value = models.IntegerField()
+    
+    sell_traders = ['Therapist', 'Skier', 'Mechanic']
+    sell_traders = [(i, i) for i in sell_traders]
     highest_sell_price_to_trader = models.IntegerField() # Highest sell price of this item to a trader
-    highest_sell_price_trader = models.CharField(choices=traders, max_length=200) # Trader for highest sell price
+    highest_sell_price_trader = models.CharField(choices=sell_traders, max_length=200) # Trader for highest sell price
+    buy_traders = ['', 'Prapor', 'Therapist', 'Fence', 'Skier',
+                   'Peacekeeper', 'Mechanic', 'Ragman', 'Jaeger']
+    buy_traders = [(i, i) for i in buy_traders]
     lowest_buy_price_from_trader = models.IntegerField(blank=True, null=True) # Lowest buy price of this item from a trader, may be blank if not available from traders
-    lowest_buy_price_trader = models.CharField(choices=traders, max_length=200, default=traders[0], blank=True) # Trader for lowest buy price, may be blank if not available from traders
+    lowest_buy_price_trader = models.CharField(choices=buy_traders, max_length=200, default=buy_traders[0], blank=True) # Trader for lowest buy price, may be blank if not available from traders
     market_buy_price = models.IntegerField() # The seen price on the market
     #weight = models.FloatField()
-
 
     #def price_validator(price):
     #    if price < 0:
@@ -27,6 +29,15 @@ class Item(models.Model):
     #        raise ValidationError(f'{price} cannot be zero.')
     #    elif price > 100000000:
     #        raise ValidationError(f'{price} is greater than 100 million')
+
+    @cached_property
+    def true_value(self):
+        if self.highest_sell_price_trader == 'Therapist':
+            return int(1.333333 * self.highest_sell_price_to_trader)
+        elif self.highest_sell_price_trader == 'Skier':
+            return int(1.492668 * self.highest_sell_price_to_trader)
+        elif self.highest_sell_price_trader == 'Mechanic':
+            return int(1.755355 * self.highest_sell_price_to_trader)
 
     def fee(self):
         '''
