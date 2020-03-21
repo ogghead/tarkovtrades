@@ -21,11 +21,6 @@ class ItemAdmin(admin.ModelAdmin):
     def add_view(self, request, extra_content=None):
         self.fieldsets = [
             (None, {'fields': ['name']}),
-            # ('True Value', {'fields': ['true_value'], 'description': '''True value is calculated as follows:
-            #                                                             1) Record the value of your stash as X.
-            #                                                             2) Sell the item to a trader, record the value of rubles you get as Y.
-            #                                                             3) Record the value of your stash after selling the item as Z.
-            #                                                             4) Calculate X + Y - Z, the result is the true value.'''}),
             ('Trader Data', {'fields': [['highest_sell_price_to_trader', 'highest_sell_price_trader'], 
                                         ['lowest_buy_price_from_trader', 'lowest_buy_price_trader']]}),
             ('Market Data', {'fields': ['market_buy_price']}),
@@ -35,11 +30,6 @@ class ItemAdmin(admin.ModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         self.fieldsets = [
             (None, {'fields': ['name']}),
-            # ('True Value', {'fields': ['true_value'], 'description': '''True value is calculated as follows:
-            #                                                             1) Record the value of your stash as X.
-            #                                                             2) Sell the item to a trader, record the value of rubles you get as Y.
-            #                                                             3) Record the value of your stash after selling the item as Z.
-            #                                                             4) Calculate X + Y - Z, the result is the true value.'''}),
             ('Trader Data', {'fields': [['highest_sell_price_to_trader', 'highest_sell_price_trader'], 
                                         ['lowest_buy_price_from_trader', 'lowest_buy_price_trader']]}),
             ('Market Data', {'fields': ['market_buy_price']}),

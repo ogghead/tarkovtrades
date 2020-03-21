@@ -4,10 +4,10 @@ import math
 from django.db import models
 from django.utils import timezone
 from django.utils.functional import cached_property
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 class Item(models.Model):
-    
     name = models.CharField(max_length=200, unique=True) # Item names must be unique
     
     sell_traders = ['Therapist', 'Skier', 'Mechanic']
@@ -20,15 +20,32 @@ class Item(models.Model):
     lowest_buy_price_from_trader = models.IntegerField(blank=True, null=True) # Lowest buy price of this item from a trader, may be blank if not available from traders
     lowest_buy_price_trader = models.CharField(choices=buy_traders, max_length=200, default=buy_traders[0], blank=True) # Trader for lowest buy price, may be blank if not available from traders
     market_buy_price = models.IntegerField() # The seen price on the market
-    #weight = models.FloatField()
+    # weight = models.FloatField()
+    # slots = models.IntegerField()
+    # TODO 
+    # Implement weights, sizes, any other useful variables and calculated variables
+    # Look into making subclasses for ammo, containers, armor, etc.
+    # Improve front end design
 
-    #def price_validator(price):
-    #    if price < 0:
-    #        raise ValidationError(f'{price} cannot be a negative number.')
-    #    elif price == 0:
-    #        raise ValidationError(f'{price} cannot be zero.')
-    #    elif price > 100000000:
-    #        raise ValidationError(f'{price} is greater than 100 million')
+
+    def price_validator(self, field, price):
+       if price < 0:
+           raise ValidationError({field: 'Price cannot be a negative number'})
+       elif price == 0:
+           raise ValidationError({field: 'Price cannot be zero'})
+       elif price > 100000000:
+           raise ValidationError({field: 'Price cannot be greater than 100 million'})
+
+    def clean(self):
+        # Price validate trader sell price
+        self.price_validator('highest_sell_price_to_trader', self.highest_sell_price_to_trader)
+
+        # Price validate trader buy price if it exists
+        if self.lowest_buy_price_from_trader:
+            self.price_validator('lowest_buy_price_from_trader', self.lowest_buy_price_from_trader)
+
+        # Price validate market price
+        self.price_validator('market_buy_price', self.market_buy_price)
 
     @cached_property
     def true_value(self):
@@ -77,7 +94,7 @@ class Item(models.Model):
         '''
         Returns calculated market fee for given market price, reduced by 30% since intel center is enabled
         '''
-        return int(.7*self.fee())
+        return int(.7*self.fee_to_post_at_buy_price_no_intel)
 
     @cached_property
     def market_sell_price_no_intel(self):
@@ -332,9 +349,12 @@ class Trade(models.Model):
     input_items = models.ManyToManyField(Item, through='InputCount', related_name='inputs')
     output_items = models.ManyToManyField(Item, through='OutputCount', related_name='outputs')
 
+
     def clean(self):
-        if (not self.trader or not self.trader_level) and (not self.crafting_station or not self.crafting_station_level):  # Could be a crafting
-            raise ValidationError({'trader': _('Should have either a trader and trader level, or a crafting station and crafting station level')})
+        if (not self.trader or not self.trader_level) and (not self.crafting_station or not self.crafting_station_level): # Need one of these
+            raise ValidationError({'trader': 'Should have either a trader and trader level or a crafting station and crafting station level'})
+        elif (self.trader or self.trader_level) and (self.crafting_station or self.crafting_station_level): # Can't have both
+            raise ValidationError({'trader': 'Should have either a trader or a crafting station, not both'})
 
     @cached_property
     def is_crafting(self):
