@@ -60,7 +60,8 @@ class TradeAdmin(admin.ModelAdmin):
                     'crafting_station', 'crafting_station_level',
                     'profit_no_intel', 'profit_intel', 
                     'is_useless_no_intel', 'is_useless_intel')
-
+    list_display_links = ('trader', 'trader_level',
+                          'crafting_station', 'crafting_station_level')
     inlines = (InputInlineAdmin, OutputInlineAdmin,)
     def add_view(self, request, extra_content=None):
         self.fieldsets = [
