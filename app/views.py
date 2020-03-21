@@ -8,7 +8,7 @@ from django.forms.formsets import formset_factory
 from django.db.models import Q
 from django.http import HttpRequest, HttpResponseRedirect
 from app.models import Item, Trade
-from app.forms import ItemForm
+# from app.forms import ItemForm
 
 def home(request):
     """Renders the home page."""
@@ -91,38 +91,38 @@ def item(request, name):
         }
     )
 
-def itempicker(request):
-    assert isinstance(request, HttpRequest)
-    if request.method == 'POST':
-        form = ItemPickerForm(request.POST)
-        if form.is_valid():
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
-            return HttpResponseRedirect('/redirected/')
-    else:
-        form = ItemPickerForm
-        return render(
-            request,
-            'app/itempicker.html',
-            {   'form': form,
-                'title':'Tarkov Trader',
-                'year':datetime.now().year,
-                'has_intel': False,
-            }
-        )
+# def itempicker(request):
+#     assert isinstance(request, HttpRequest)
+#     if request.method == 'POST':
+#         form = ItemPickerForm(request.POST)
+#         if form.is_valid():
+#             # process the data in form.cleaned_data as required
+#             # ...
+#             # redirect to a new URL:
+#             return HttpResponseRedirect('/redirected/')
+#     else:
+#         form = ItemPickerForm
+#         return render(
+#             request,
+#             'app/itempicker.html',
+#             {   'form': form,
+#                 'title':'Tarkov Trader',
+#                 'year':datetime.now().year,
+#                 'has_intel': False,
+#             }
+#         )
 
-def recommendations(request, names):
-    assert isinstance(request, HttpRequest)
-    if request.method == 'POST':
-        form = ItemPickerForm(request.POST)
-        if form.is_valid():
-            items = form.cleaned_data.get('selected_items')
-    else:
-        form = ItemPickerForm
+# def recommendations(request, names):
+#     assert isinstance(request, HttpRequest)
+#     if request.method == 'POST':
+#         form = ItemPickerForm(request.POST)
+#         if form.is_valid():
+#             items = form.cleaned_data.get('selected_items')
+#     else:
+#         form = ItemPickerForm
 
-    return render_to_response('render_country.html', {'form': form},
-                              context_instance=RequestContext(request))
+#     return render_to_response('render_country.html', {'form': form},
+#                               context_instance=RequestContext(request))
     #item = get_object_or_404(Item, name=name)
     #return render(
     #    request,

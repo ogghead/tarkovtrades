@@ -18,8 +18,8 @@ class BootstrapAuthenticationForm(AuthenticationForm):
                                    'class': 'form-control',
                                    'placeholder':'Password'}))
 
-class ItemForm(forms.Form):
-    items = Item.objects.order_by('name')
-    item_names = [(i.name, i.name) for i in items]
-    item = forms.ChoiceField(choices=item_names)
-    item_amount = forms.IntegerField(min_value=1, max_value=100)
+# class ItemForm(forms.Form):
+#     items = Item.objects.order_by('name')
+#     item_names = [(i.name, i.name) for i in items]
+#     item = forms.ChoiceField(choices=item_names)
+#     item_amount = forms.IntegerField(min_value=1, max_value=100)

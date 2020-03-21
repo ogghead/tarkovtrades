@@ -20,8 +20,8 @@ class Item(models.Model):
     lowest_buy_price_from_trader = models.IntegerField(blank=True, null=True) # Lowest buy price of this item from a trader, may be blank if not available from traders
     lowest_buy_price_trader = models.CharField(choices=buy_traders, max_length=200, default=buy_traders[0], blank=True) # Trader for lowest buy price, may be blank if not available from traders
     market_buy_price = models.IntegerField() # The seen price on the market
-    # weight = models.FloatField()
-    # slots = models.IntegerField()
+    item_weight = models.FloatField()
+    item_slots = models.IntegerField()
     # TODO 
     # Implement weights, sizes, any other useful variables and calculated variables
     # Look into making subclasses for ammo, containers, armor, etc.
@@ -325,6 +325,20 @@ class Item(models.Model):
         if type(self.max_sell_price_intel_source) == str:
             return False
         return True
+
+    @cached_property
+    def value_per_slot_no_intel(self):
+        '''
+        Returns value per item slot
+        '''
+        return self.max_sell_price_no_intel/self.item_slots
+
+    @cached_property
+    def value_per_slot_intel(self):
+        '''
+        Returns value per item slot
+        '''
+        return self.max_sell_price_intel/self.item_slots
 
     def __unicode__(self):
         """Returns a string representation of an item."""

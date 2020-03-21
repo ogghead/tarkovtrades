@@ -21,6 +21,7 @@ class ItemAdmin(admin.ModelAdmin):
     def add_view(self, request, extra_content=None):
         self.fieldsets = [
             (None, {'fields': ['name']}),
+            ('Item Data', {'fields': ['item_weight', 'item_slots']}),
             ('Trader Data', {'fields': [['highest_sell_price_to_trader', 'highest_sell_price_trader'], 
                                         ['lowest_buy_price_from_trader', 'lowest_buy_price_trader']]}),
             ('Market Data', {'fields': ['market_buy_price']}),
@@ -30,12 +31,13 @@ class ItemAdmin(admin.ModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         self.fieldsets = [
             (None, {'fields': ['name']}),
+            ('Item Data', {'fields': ['item_weight', 'item_slots']}),
             ('Trader Data', {'fields': [['highest_sell_price_to_trader', 'highest_sell_price_trader'], 
                                         ['lowest_buy_price_from_trader', 'lowest_buy_price_trader']]}),
             ('Market Data', {'fields': ['market_buy_price']}),
             ('Market Data (Read Only)', {'fields': [['fee_to_post_at_buy_price_no_intel', 'market_sell_price_no_intel'],
                                                     ['fee_to_post_at_buy_price_intel', 'market_sell_price_intel']]}),
-            ('Calculated Fields (Read Only)', {'fields': [['true_value'],
+            ('Calculated Fields (Read Only)', {'fields': [['true_value', 'value_per_slot_no_intel', 'value_per_slot_intel'],
                                                           ['min_buy_price_no_intel', 'min_buy_price_no_intel_source', 'min_buy_price_no_intel_source_is_trade'],
                                                           ['min_buy_price_intel', 'min_buy_price_intel_source', 'min_buy_price_intel_source_is_trade'],
                                                           ['max_sell_price_no_intel', 'max_sell_price_no_intel_source', 'max_sell_price_no_intel_source_is_trade'],
@@ -43,7 +45,7 @@ class ItemAdmin(admin.ModelAdmin):
         ]
         self.readonly_fields = ('fee_to_post_at_buy_price_no_intel', 'market_sell_price_no_intel',
                                 'fee_to_post_at_buy_price_intel', 'market_sell_price_intel',
-                                'true_value',
+                                'true_value', 'value_per_slot_no_intel', 'value_per_slot_intel',
                                 'min_buy_price_no_intel', 'min_buy_price_no_intel_source', 'min_buy_price_no_intel_source_is_trade',
                                 'min_buy_price_intel', 'min_buy_price_intel_source', 'min_buy_price_intel_source_is_trade',
                                 'max_sell_price_no_intel', 'max_sell_price_no_intel_source', 'max_sell_price_no_intel_source_is_trade',
