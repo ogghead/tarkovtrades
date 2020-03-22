@@ -123,8 +123,8 @@ class Item(models.Model):
         else:
             trades = {}
             for trade in self.related_output_trades: # Get item value of all trades
-                if trade.is_useless_no_intel:
-                    continue
+                # if trade.is_useless_no_intel:
+                #     continue
                 trade_inputs_price = trade.inputs_buy_price_no_intel
                 trade_outputs_price = trade.outputs_price_no_intel
                 percent_of_output_trade = self.max_sell_price_no_intel/trade_outputs_price
@@ -144,8 +144,8 @@ class Item(models.Model):
         else:
             trades = {}
             for trade in self.related_output_trades: # Get item value of all trades
-                if trade.is_useless_intel:
-                    continue
+                # if trade.is_useless_intel:
+                #     continue
                 trade_inputs_price = trade.inputs_buy_price_intel
                 trade_outputs_price = trade.outputs_price_intel
                 percent_of_output_trade = self.max_sell_price_intel/trade_outputs_price
@@ -231,8 +231,8 @@ class Item(models.Model):
         else:
             trades = {}
             for trade in self.related_input_trades: # Get item value of all trades
-                if trade.is_useless_no_intel:
-                    continue
+                # if trade.is_useless_no_intel:
+                #     continue
                 trade_inputs_price = trade.inputs_buy_price_no_intel
                 trade_outputs_price = trade.outputs_price_no_intel
                 percent_of_input_trade = self.min_buy_price_no_intel/trade_inputs_price
@@ -252,8 +252,8 @@ class Item(models.Model):
         else:
             trades = {}
             for trade in self.related_input_trades: # Get item value of all trades
-                if trade.is_useless_intel:
-                    continue
+                # if trade.is_useless_intel:
+                #     continue
                 trade_inputs_price = trade.inputs_buy_price_intel
                 trade_outputs_price = trade.outputs_price_intel
                 percent_of_input_trade = self.min_buy_price_intel/trade_inputs_price
@@ -267,8 +267,11 @@ class Item(models.Model):
         '''
         Returns a dictionary of {sell_price: sell_source}
         '''
-        max_item_trade_price_no_intel, max_item_trade_source_no_intel = self.max_input_trade_price_and_source_no_intel()
-        sell_prices = {self.market_sell_price_no_intel: 'Market', max_item_trade_price_no_intel: max_item_trade_source_no_intel, self.highest_sell_price_to_trader: self.highest_sell_price_trader}
+        # max_item_trade_price_no_intel, max_item_trade_source_no_intel = self.max_input_trade_price_and_source_no_intel()
+        sell_prices = {self.market_sell_price_no_intel: 'Market',
+                    #    max_item_trade_price_no_intel: max_item_trade_source_no_intel}
+                       self.highest_sell_price_to_trader: self.highest_sell_price_trader}
+                       
         return sell_prices
 
     @cached_property
@@ -276,8 +279,10 @@ class Item(models.Model):
         '''
         Returns a dictionary of {sell_price: sell_source}
         '''
-        max_item_trade_price_intel, max_item_trade_source_intel = self.max_input_trade_price_and_source_intel()
-        sell_prices = {self.market_sell_price_intel: 'Market', max_item_trade_price_intel: max_item_trade_source_intel, self.highest_sell_price_to_trader: self.highest_sell_price_trader}
+        # max_item_trade_price_intel, max_item_trade_source_intel = self.max_input_trade_price_and_source_intel()
+        sell_prices = {self.market_sell_price_intel: 'Market', 
+                    #    max_item_trade_price_intel: max_item_trade_source_intel, 
+                       self.highest_sell_price_to_trader: self.highest_sell_price_trader}
         return sell_prices
 
     @cached_property
