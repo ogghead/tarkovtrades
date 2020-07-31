@@ -13,18 +13,19 @@ services:
     ports:
       - 8081:8081
 
-  flaskapp:
-    build: ./FlaskAPI
-    environment: 
+  restapi:
+    build: ./restapi
+    environment:
       - FLASK_ENV=development
     ports:
+      - 4000:4000
       - 5000:5000
     volumes:
-      - ~/tarkovtrades/FlaskAPI:/app
+      - ~/tarkovtrades/restapi:/restapi
 
   gui:
-    build: ./VueApp
+    build: ./gui
     ports:
       - 8080:8080
     volumes:
-      - ~/tarkovtrades/VueApp:/app
+      - ~/tarkovtrades/gui:/gui
