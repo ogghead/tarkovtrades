@@ -1,5 +1,6 @@
-pymongo==3.5.1
 flask
-Flask-DebugToolbar
-flask-mongoengine
+flask-restful
+flask-apispec
+marshmallow<3.0
+umongo
 gunicorn
