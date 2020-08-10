@@ -3,28 +3,26 @@ version: "3.1"
 services:
   mongo:
     image: mongo
-    restart: always
+    restart: on-failure
     volumes:
       - ~/tarkovtrades/MongoDB:/data/db
 
   mongo-express:
     image: mongo-express
-    restart: always
+    restart: on-failure
     ports:
       - 8081:8081
 
-  flaskapp:
-    build: ./FlaskAPI
-    environment: 
-      - FLASK_ENV=development
+  restapi:
+    build: ./restapi
     ports:
       - 5000:5000
     volumes:
-      - ~/tarkovtrades/FlaskAPI:/app
+      - ~/tarkovtrades/restapi:/restapi
 
   gui:
-    build: ./VueApp
+    build: ./gui
     ports:
       - 8080:8080
     volumes:
-      - ~/tarkovtrades/VueApp:/app
+      - ~/tarkovtrades/gui:/gui

@@ -1,0 +1,6 @@
+flask
+flask-restful
+flask-apispec
+marshmallow<3.0
+umongo
+gunicorn
