@@ -20,7 +20,7 @@ pyodbc==4.0.30
 pyparsing==2.4.6
 pytz==2019.3
 pytest==5.4.1
-setuptools==46.0.0
+setuptools==65.5.1
 six==1.14.0
 sqlparse==0.3.1
 wcwidth==0.1.8
